@@ -28,9 +28,11 @@ In this lab, you'll create S3 buckets, configure storage classes, upload objects
 ### Via AWS Console
 
 **1. Navigate to S3**
+
 - AWS Console → S3
 
 **2. Create Bucket**
+
 - Click "Create bucket"
 - Bucket name: `your-name-bootcamp-demo-2024` (must be globally unique!)
 - Region: `us-east-1` (N. Virginia)
@@ -38,10 +40,12 @@ In this lab, you'll create S3 buckets, configure storage classes, upload objects
 - Click "Create bucket"
 
 **3. Verify Creation**
+
 - You should see your bucket in the list
 - Click on bucket name to view details
 
 ### Deliverable:
+
 - Screenshot: `screenshots/bucket-created.png`
 
 ---
@@ -51,6 +55,7 @@ In this lab, you'll create S3 buckets, configure storage classes, upload objects
 ### Part A: Upload via Console
 
 **1. Upload Files**
+
 - Click on your bucket
 - Click "Upload"
 - Drag and drop or click "Add files"
@@ -61,12 +66,14 @@ In this lab, you'll create S3 buckets, configure storage classes, upload objects
 - Click "Upload"
 
 **2. Create Folders**
+
 - In your bucket, click "Create folder"
 - Folder name: `images`
 - Create folder
 - Repeat to create folders: `documents`, `backups`
 
 **3. Organize Files**
+
 - Upload an image to `images/` folder
 - Upload a document to `documents/` folder
 
@@ -90,6 +97,7 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 ```
 
 ### Deliverables:
+
 - Screenshot of uploaded files: `screenshots/files-uploaded.png`
 - Screenshot of folder structure: `screenshots/folder-structure.png`
 - Save CLI outputs to `cli-outputs.txt`
@@ -101,26 +109,31 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 ### Part A: Upload with Different Storage Class
 
 **1. Upload with Standard-IA**
+
 - Upload → Add files → Select a large file
 - Before clicking "Upload", expand "Properties"
 - Storage class: Choose "Standard-IA"
 - Upload
 
 **2. View Storage Class**
+
 - Click on the object
 - Check "Storage class" in properties
 
 ### Part B: Change Storage Class
 
 **1. Select Existing Object**
+
 - Check the box next to an object
 - Actions → Edit storage class
 
 **2. Change to Intelligent-Tiering**
+
 - Select "Intelligent-Tiering"
 - Save changes
 
 ### Deliverable:
+
 - Screenshot showing different storage classes: `screenshots/storage-classes.png`
 
 ---
@@ -130,14 +143,17 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 ### Part A: Enable Versioning
 
 **1. Go to Bucket Properties**
+
 - Click on bucket → Properties tab
 
 **2. Edit Versioning**
+
 - Bucket Versioning → Edit
 - Enable
 - Save changes
 
 **3. Test Versioning**
+
 - Upload a file named `version-test.txt` with content "Version 1"
 - Edit the file locally to say "Version 2"
 - Upload again (same name)
@@ -147,6 +163,7 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 ### Part B: Enable Encryption
 
 **1. Default Encryption**
+
 - Properties tab → Default encryption → Edit
 - Encryption type: Server-side encryption with Amazon S3 managed keys (SSE-S3)
 - Enable
@@ -155,6 +172,7 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 ### Part C: Add Tags
 
 **1. Add Bucket Tags**
+
 - Properties → Tags → Edit
 - Add tags:
   - Key: `Environment`, Value: `Development`
@@ -162,6 +180,7 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 - Save changes
 
 ### Deliverables:
+
 - Screenshot of versioning enabled: `screenshots/versioning-enabled.png`
 - Screenshot of versions list: `screenshots/versions.png`
 - Screenshot of encryption enabled: `screenshots/encryption-enabled.png`
@@ -174,9 +193,11 @@ aws s3 ls s3://your-name-bootcamp-demo-2024/backups/
 ### Part A: Download Objects
 
 **Via Console:**
+
 - Select object → Click "Download"
 
 **Via CLI:**
+
 ```bash
 # Download single file
 aws s3 cp s3://your-name-bootcamp-demo-2024/cli-test.txt ./downloads/
@@ -188,10 +209,12 @@ aws s3 cp s3://your-name-bootcamp-demo-2024/images/ ./downloads/images/ --recurs
 ### Part B: Delete Objects
 
 **Via Console:**
+
 - Select object → Delete
 - Type "permanently delete" to confirm
 
 **Via CLI:**
+
 ```bash
 # Delete single object
 aws s3 rm s3://your-name-bootcamp-demo-2024/cli-test.txt
@@ -201,6 +224,7 @@ aws s3 rm s3://your-name-bootcamp-demo-2024/backups/ --recursive
 ```
 
 ### Deliverable:
+
 - Save CLI outputs to `cli-outputs.txt`
 
 ---
@@ -239,6 +263,7 @@ aws s3 sync local-project/ s3://your-name-bootcamp-demo-2024/project/
 ```
 
 ### Deliverable:
+
 - Screenshot of synced files: `screenshots/synced-files.png`
 - Save CLI outputs to `cli-outputs.txt`
 
@@ -249,16 +274,18 @@ aws s3 sync local-project/ s3://your-name-bootcamp-demo-2024/project/
 ### Check Bucket Size
 
 **Via Console:**
+
 - Bucket → Metrics tab
 - View storage metrics
 
 **Via CLI:**
+
 ```bash
 # Get bucket size (requires CloudWatch)
 aws cloudwatch get-metric-statistics \
   --namespace AWS/S3 \
   --metric-name BucketSizeBytes \
-  --dimensions Name=BucketName,Value=your-name-bootcamp-demo-2024 \
+  --dimensions Name=BucketName,Value=hafiz-abdul-quddus-bootcamp-demo-2024 \
   Name=StorageType,Value=StandardStorage \
   --start-time $(date -u -d '7 days ago' +%Y-%m-%dT%H:%M:%S) \
   --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
@@ -267,6 +294,7 @@ aws cloudwatch get-metric-statistics \
 ```
 
 ### Deliverable:
+
 - Screenshot of metrics: `screenshots/bucket-metrics.png`
 
 ---
@@ -276,6 +304,7 @@ aws cloudwatch get-metric-statistics \
 ### Challenge 1: Lifecycle Policy
 
 Create a lifecycle policy to:
+
 - Transition objects to Standard-IA after 30 days
 - Transition to Glacier after 90 days
 - Delete after 365 days
@@ -287,6 +316,7 @@ Create a lifecycle policy to:
 ### Challenge 2: Cross-Region Replication
 
 Set up replication to another region (requires versioning):
+
 - Create bucket in different region
 - Configure replication rule
 - Test by uploading object
@@ -357,14 +387,17 @@ Or via console: Select bucket → Empty → Delete
 ## Troubleshooting
 
 **Bucket name already exists:**
+
 - Bucket names are globally unique
 - Add your name or numbers to make unique
 
 **Access Denied:**
+
 - Check IAM permissions
 - Ensure you have S3 access
 
 **CLI not working:**
+
 - Run: `aws configure`
 - Verify credentials
 

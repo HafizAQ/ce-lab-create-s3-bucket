@@ -8,7 +8,14 @@ Save all your S3 CLI command outputs here.
 
 ```bash
 $ aws s3 cp cli-test.txt s3://your-name-bootcamp-demo-2024/
-[Paste output]
+hquddu:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ aws s3 cp cli-test.txt s3://hafiz-abdul-quddus-bootcamp-demo-2024
+upload failed: ./cli-test.txt to s3://hafiz-abdul-quddus-bootcamp-demo-2024/cli-test.txt An error occurred (AccessDenied) when calling the PutObject operation: User: arn:aws:iam::203637464233:user/hquddus is not authorized to perform: s3:PutObject on resource: "arn:aws:s3:::hafiz-abdul-quddus-bootcamp-demo-2024/cli-test.txt" because no identity-based policy allows the s3:PutObject action
+=> I added inline policy to the user and then it works
+
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ aws s3 cp cli-test.txt s3://hafiz-abdul-quddus-bootcamp-demo-2024
+upload: ./cli-test.txt to s3://hafiz-abdul-quddus-bootcamp-demo-2024/cli-test.txt
+
+
 ```
 
 ---
@@ -17,7 +24,16 @@ $ aws s3 cp cli-test.txt s3://your-name-bootcamp-demo-2024/
 
 ```bash
 $ aws s3 ls s3://your-name-bootcamp-demo-2024/
-[Paste output]
+
+                           PRE backups/
+                           PRE documents/
+                           PRE images/
+2026-07-09 23:28:00       8428 README.md
+2026-07-10 09:47:12         18 cli-test.txt
+2026-07-09 23:28:01      58387 logo.png
+2026-07-09 23:28:01      42961 resume.pdf
+
+
 ```
 
 ---
@@ -26,7 +42,9 @@ $ aws s3 ls s3://your-name-bootcamp-demo-2024/
 
 ```bash
 $ aws s3 sync local-project/ s3://your-name-bootcamp-demo-2024/project/
-[Paste output]
+
+its synched with my newly created folder i.e local project/
+output: hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ 
 ```
 
 ---
@@ -35,5 +53,24 @@ $ aws s3 sync local-project/ s3://your-name-bootcamp-demo-2024/project/
 
 ```bash
 $ aws s3 rm s3://your-name-bootcamp-demo-2024/cli-test.txt
-[Paste output]
+
+delete: s3://hafiz-abdul-quddus-bootcamp-demo-2024/cli-test.txt
 ```
+
+# Sync Configureations 
+
+
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ mkdir -p local-project/{src,docs,assets}
+hqud:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ echo "console.log('Hello');"> local-project/src/app.js
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ echo "# Documentation"> local-project/docs/README.md
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ echo "<!-- HTML -->"> local-project/assets/index.html
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ echo "<! -- HTML -->" > local-project/assets/index.html
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ aws s3 sync local-project  s3://hafiz-abdul-quddus-bootcamp-demo-2024/project/
+upload: local-project/assets/index.html to s3://hafiz-abdul-quddus-bootcamp-demo-2024/project/assets/index.html
+upload: local-project/docs/README.md to s3://hafiz-abdul-quddus-bootcamp-demo-2024/project/docs/README.md
+upload: local-project/src/app.js to s3://hafiz-abdul-quddus-bootcamp-demo-2024/project/src/app.js
+hqud:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ echo "console.log('Updated');"> local-project/src/app.js
+hqudnb:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ aws s3 sync local-project/  s3://hafiz-abdul-quddus-bootcamp-demo-2024/project/
+upload: local-project/src/app.js to s3://hafiz-abdul-quddus-bootcamp-demo-2024/project/src/app.js
+hqudd:~/Ironhack/LM1_01/ce-lab-create-s3-bucket$ 
+
